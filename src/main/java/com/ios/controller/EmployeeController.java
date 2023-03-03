@@ -14,30 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ios.dto.UserDTO;
 import com.ios.exception.EmployeeNotFoundException;
 import com.ios.model.Employee;
-import com.ios.model.User;
 import com.ios.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees/")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	@PostMapping("/post")
+	@PostMapping()
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		return employeeService.saveEmployee(employee);
 	}
 
-	@GetMapping("/{employeeId}")
+	@GetMapping("{employeeId}")
 	public Employee getEmployeeById(@PathVariable("employeeId") long employeeId) throws EmployeeNotFoundException {
 		return employeeService.getEmployeeById(employeeId);
 	}
 
-	@GetMapping("/get")
+	@GetMapping()
 	public List<Employee> getAllEmployee() {
 		return employeeService.getAllEmpoyee();
 	}
@@ -48,24 +46,9 @@ public class EmployeeController {
 		employeeService.deleteEmployeeById(employeeId);
 	}
 
-	@PutMapping("/{employeeId}")
+	@PutMapping("{employeeId}")
 	public Employee updateEmployee(@PathVariable("employeeId") long employeeId, @RequestBody Employee employee)
 			throws EmployeeNotFoundException {
 		return employeeService.updateEmployee(employeeId, employee);
 	}
-
-//getting the data from other API:
-
-	@GetMapping("/users")
-	public List<User> getUserData() {
-		return employeeService.getUserData();
-	}
-
-//getting users whose status is active
-	
-	@GetMapping("/active-users")
-	public List<UserDTO> getActiveUsers() {
-		return employeeService.getActiveUsers();
-	}
-
 }
