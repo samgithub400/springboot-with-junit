@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ios.dto.UserDTO;
+import com.ios.model.Posts;
 import com.ios.model.User;
+import com.ios.service.PostsService;
 import com.ios.service.UserService;
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/users")
+
 public class UserController {
 
+	@Autowired
+	private PostsService postsService;
 	@Autowired
 	private UserService userService;
 
@@ -28,20 +33,30 @@ public class UserController {
 
 	// getting users by status is active or inactive
 
-	@GetMapping("{status}")
+	@GetMapping("/{status}")
 	public List<UserDTO> getUsersByStatus(@PathVariable("status") String status) {
 		return userService.getUsersByStatus(status);
 	}
 
 	// group the users in the list whose status is active or inactive
-	@GetMapping("groupBy")
+	@GetMapping("/groupBy")
 	public Map<String, List<User>> getGroupOfUsers() {
 		return userService.getGroupOfUsers();
 	}
-	
+
 	// group the users names only in the list whose status is active or inactive
-	@GetMapping("groupByName")
+	@GetMapping("/groupByName")
 	public Map<String, List<String>> getGroupOfUsersName() {
 		return userService.getGroupOfUsersName();
+	}
+
+	@GetMapping("/get-users")
+	public List<User> gettUsers() {
+		return userService.getUsers();
+	}
+
+	@GetMapping("/get-posts")
+	public List<Posts> getAllPosts() {
+		return postsService.getPosts();
 	}
 }

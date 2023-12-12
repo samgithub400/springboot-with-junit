@@ -25,7 +25,7 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@PostMapping()
+	@PostMapping("save")
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		return employeeService.saveEmployee(employee);
 	}
@@ -36,12 +36,12 @@ public class EmployeeController {
 	}
 
 	@GetMapping()
-	public List<Employee> getAllEmployee() {
+	public List<Employee> getAllEmployee() throws EmployeeNotFoundException {
 		return employeeService.getAllEmpoyee();
 	}
 
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{employeeId}")
+	@DeleteMapping("{employeeId}")
 	public void deleteEmployeeById(@PathVariable("employeeId") long employeeId) throws EmployeeNotFoundException {
 		employeeService.deleteEmployeeById(employeeId);
 	}
@@ -50,5 +50,11 @@ public class EmployeeController {
 	public Employee updateEmployee(@PathVariable("employeeId") long employeeId, @RequestBody Employee employee)
 			throws EmployeeNotFoundException {
 		return employeeService.updateEmployee(employeeId, employee);
+	}
+
+	@DeleteMapping("id/{id}")
+	public void return_Void_DeleteEmployeeById(@PathVariable("id") Long id) {
+		//Deleting the Employee By Id....deleteEmployeeById=deleteEmployeeById
+		employeeService.return_Void_DeleteEmployeeById(id);
 	}
 }
